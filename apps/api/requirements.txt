@@ -1,0 +1,6 @@
+fastapi[standard]
+chromadb
+requests
+bs4
+python-dotenv
+openai
