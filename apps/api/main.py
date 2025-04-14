@@ -19,7 +19,7 @@ VECTOR_STORE_ID = "vs_67fc460cd6388191bf2ed8aab1ab223e"
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
-origins = ["http://localhost:3000", "https://modal-gory77o7m-jordanumusus-projects.vercel.app"]
+origins = ["http://localhost:3000", "https://modal-eta-indol.vercel.app"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
