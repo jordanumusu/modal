@@ -3,6 +3,5 @@ chromadb
 requests
 bs4
 python-dotenv
-ast
 openai
 pandas
