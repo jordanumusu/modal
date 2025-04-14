@@ -4,7 +4,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { NewChatButton } from "@/components/NewChatButton";
 import { Separator } from "@/components/ui/separator";
