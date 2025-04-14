@@ -120,9 +120,19 @@ export function PromptSection() {
         )}
 
         {chatHistory.length === 0 && (
-          <div className="flex flex-col items-center justify-center h-full text-center animate-intro text-2xl font-semibold text-muted-foreground px-4">
-            <p>
-              🎶 Welcome to <span className="text-primary">Modal</span>
+          <div className="flex flex-col items-center justify-center h-full text-center animate-intro text-2xl font-semibold text-muted-foreground p-4">
+            <p className="text-3xl font-semibold flex gap-2">
+              {["🎶", "Welcome", "to", "Modal"].map((word, i) => (
+                <span
+                  key={i}
+                  className="text-primary inline-block animate-word-bounce"
+                  style={{
+                    animationDelay: `${i * 0.15}s`,
+                  }}
+                >
+                  {word}
+                </span>
+              ))}
             </p>
             <p className="text-base mt-2 font-normal">
               Your AI assistant for chord progressions, solos, song ideas, and
