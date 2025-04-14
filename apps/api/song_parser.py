@@ -19,13 +19,12 @@ logger = logging.getLogger(__name__)
 
 def extract_songs_and_artists(query: str) -> list[dict]:
     prompt = f"""
-You are a music-aware parser. Extract all song titles and their most likely artist(s) from the query below.
-If an artist is not explicitly mentioned, infer the most well-known or original performer.
-Only return a valid JSON array like:
-[{{"title": "...", "artist": "..."}}]
-
-Query: "{query}"
-"""
+                You are a music-aware parser. Extract all song titles and their most likely artist(s) from the query below.
+                If an artist is not explicitly mentioned, infer the most well-known or original performer.
+                Only return a valid JSON array like:
+                [{{"title": "...", "artist": "..."}}]
+                Query: "{query}"
+            """
     try:
         response = client.responses.create(
             model="gpt-4o",
@@ -92,7 +91,7 @@ async def fetch_and_update_chord_file(parsed_songs: list[dict]) -> str | None:
         with open(CHORD_FILE_PATH, "w") as f:
             json.dump(data, f, indent=2)
 
-        # Step 2: Delete previous vector file (if exists)
+        # Step 2: Delete previous vector file (if exists); hack but not sure of work-around
         old_file_id = read_current_file_id()
         if old_file_id:
             try:

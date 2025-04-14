@@ -10,12 +10,11 @@ import ReactMarkdown from "react-markdown";
 
 export function PromptSection() {
   const { chatHistory, addChatMessage, query, setQuery } = useChatStore();
-  const chatEndRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const lastChunkRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     console.log(chatHistory);
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
 
   const getLatestResponseId = () => {
@@ -52,7 +51,6 @@ export function PromptSection() {
 
     if (response.ok) {
       const data = await response.json();
-      // Add LLM's response
       addChatMessage({
         sender: "llm",
         response_id: data.id,
@@ -77,14 +75,11 @@ export function PromptSection() {
 
   return (
     <div className="flex flex-col h-full w-full p-4 items-center">
-      <div className="w-[60%] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent overflow-x-hidden flex flex-col gap-8">
+      <div className="w-[70%] sm:w-[60%] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent overflow-x-hidden flex flex-col gap-8 pb-16">
         {chatHistory.map((message, index) =>
           message.sender === "user" ? (
-            <div className="flex justify-end">
-              <div
-                key={index}
-                className="flex text-left max-w-lg leading-1.5 px-4 py-2 border-gray-200 bg-gray-100 rounded-xl rounded-tr-none dark:bg-gray-700"
-              >
+            <div key={index} className="flex justify-end">
+              <div className="flex text-left max-w-lg leading-1.5 px-4 py-2 border-gray-200 bg-zinc-300 rounded-xl rounded-tr-none dark:bg-zinc-600">
                 <p className="text-sm font-normal py-2.5 text-gray-900 dark:text-white">
                   {message.content}
                 </p>
@@ -93,16 +88,27 @@ export function PromptSection() {
           ) : (
             <div key={index} className="text-lg">
               <Card className="shadow-md bg-zinc-100 dark:bg-zinc-900">
-                {splitMessageIntoChunks(message.content).map(
-                  (chunk, chunkIndex) => (
-                    <CardContent
-                      key={chunkIndex}
-                      className="opacity-0 animate-typewriter"
-                    >
-                      <ReactMarkdown>{chunk}</ReactMarkdown>
-                    </CardContent>
-                  )
-                )}
+                <CardContent>
+                  {splitMessageIntoChunks(message.content).map(
+                    (chunk, chunkIndex, allChunks) => (
+                      <p
+                        key={chunkIndex}
+                        ref={
+                          chunkIndex === allChunks.length - 1
+                            ? lastChunkRef
+                            : null
+                        }
+                        className="opacity-0 animate-typewriter"
+                        style={{
+                          animationDelay: `${chunkIndex * 0.3}s`,
+                          animationFillMode: "forwards",
+                        }}
+                      >
+                        <ReactMarkdown>{chunk}</ReactMarkdown>
+                      </p>
+                    )
+                  )}
+                </CardContent>
               </Card>
             </div>
           )
@@ -121,7 +127,7 @@ export function PromptSection() {
 
         {chatHistory.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center animate-intro text-2xl font-semibold text-muted-foreground p-4">
-            <p className="text-3xl font-semibold flex gap-2">
+            <p className="text-2xl sm:text-3xl font-semibold flex gap-2">
               {["🎶", "Welcome", "to", "Modal"].map((word, i) => (
                 <span
                   key={i}
@@ -140,12 +146,10 @@ export function PromptSection() {
             </p>
           </div>
         )}
-
-        <div ref={chatEndRef} />
       </div>
 
       <div className="w-full fixed bottom-0 flex justify-center max-h-64 pb-8">
-        <form onSubmit={handleSubmit} className="w-[50%]">
+        <form onSubmit={handleSubmit} className="w-[80%] sm:w-[50%]">
           <div className="relative scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent overflow-y-auto w-full h-full border-2 p-4 rounded-lg flex gap-2 items-center justify-between bg-background">
             <Textarea
               rows={1}
