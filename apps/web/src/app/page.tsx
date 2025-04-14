@@ -1,15 +1,13 @@
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { PromptSection } from "@/components/PromptSection";
 export default function Home() {
   return (
     <div className="flex flex-col h-full p-2">
-      <header className="flex items-center justify-between">
-        <SidebarTrigger className="" />
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+      <header className="flex items-center justify-end">
+        <div className="p-2 pointer-cursor">
+        <ThemeToggle/>
+
+        </div>
       </header>
       <div className="flex-1">
         <PromptSection/>

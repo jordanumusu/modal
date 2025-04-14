@@ -4,20 +4,25 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarHeader,
-} from "@/components/ui/sidebar"
-import { SearchForm } from "@/components/SearchForm"
- 
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { NewChatButton } from "@/components/NewChatButton";
+import { Separator } from "@/components/ui/separator";
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader>
-      <SearchForm />
-        </SidebarHeader>
+      <SidebarHeader >
+        <div className="pt-2 w-full flex justify-around">
+        <NewChatButton />
+        </div>
+        <Separator className="my-4" />
+
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup />
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter />
     </Sidebar>
-  )
+  );
 }

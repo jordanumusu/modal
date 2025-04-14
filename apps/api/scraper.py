@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.parse import quote, urlparse
 import re
+import time
+import random
 
 def search_duckduckgo(query: str):
     search_url = f"https://duckduckgo.com/html/?q={quote(query)}"
@@ -21,6 +23,7 @@ def fetch_chords_sectioned(url: str):
     headers = {
         "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X)"
     }
+    time.sleep(random.uniform(0.5, 1.0))  # For anti-bot behavior
     parsed = urlparse(url)
     mobile_url = f"https://tabs.ultimate-guitar.com{parsed.path}"
     res = requests.get(mobile_url, headers=headers)
@@ -28,7 +31,7 @@ def fetch_chords_sectioned(url: str):
     content = soup.find("pre", class_="extra")
 
     if not content:
-        return {"Error": ["No chord block found."]}
+        return {}
 
     lines = content.get_text().splitlines()
     result = {}

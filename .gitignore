@@ -57,6 +57,7 @@ coverage/
 # ====================
 .DS_Store
 Thumbs.db
+*.csv
 
 # ====================
 # Turbo / Build Cache
