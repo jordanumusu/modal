@@ -11,7 +11,13 @@ import ReactMarkdown from "react-markdown";
 export function PromptSection() {
   const { chatHistory, addChatMessage, query, setQuery } = useChatStore();
   const [isLoading, setIsLoading] = useState(false);
-  const lastChunkRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   useEffect(() => {
     console.log(chatHistory);
@@ -75,7 +81,7 @@ export function PromptSection() {
 
   return (
     <div className="flex flex-col h-full w-full p-4 items-center">
-      <div className="w-[70%] sm:w-[60%] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent overflow-x-hidden flex flex-col gap-8 pb-16">
+      <div ref={containerRef} className="w-[70%] sm:w-[60%] flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent overflow-x-hidden flex flex-col gap-8 pb-16">
         {chatHistory.map((message, index) =>
           message.sender === "user" ? (
             <div key={index} className="flex justify-end">
@@ -93,11 +99,6 @@ export function PromptSection() {
                     (chunk, chunkIndex, allChunks) => (
                       <p
                         key={chunkIndex}
-                        ref={
-                          chunkIndex === allChunks.length - 1
-                            ? lastChunkRef
-                            : null
-                        }
                         className="opacity-0 animate-typewriter"
                         style={{
                           animationDelay: `${chunkIndex * 0.3}s`,
