@@ -96,7 +96,7 @@ export function PromptSection() {
               <Card className="shadow-md bg-zinc-100 dark:bg-zinc-900">
                 <CardContent>
                   {splitMessageIntoChunks(message.content).map(
-                    (chunk, chunkIndex, allChunks) => (
+                    (chunk, chunkIndex) => (
                       <p
                         key={chunkIndex}
                         className="opacity-0 animate-typewriter"
